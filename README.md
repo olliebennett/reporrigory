@@ -16,3 +16,14 @@ In order to explore good combinations, the following comparison algorithms are u
 
 * [Levenshtein Distance](http://en.wikipedia.org/wiki/Levenshtein_distance) - the minimum number of single-character edits required to change one word into the other.
 
+## Installation
+
+Requires Python3 with pip.
+
+* Install metaphone
+
+	pip install git+https://github.com/oubiwann/metaphone.git
+
+* Run it!
+
+	python main.py
