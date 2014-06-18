@@ -1,12 +1,18 @@
+from metaphone import doublemetaphone
+
+
 def levenshtein(a, b):
-    #http://hetland.org/coding/python/levenshtein.py
-    "Calculates the Levenshtein distance between a and b."
+    """
+    Calculates the Levenshtein distance between a and b.
+    See: http://en.wikipedia.org/wiki/Levenshtein_distance
+    From: http://hetland.org/coding/python/levenshtein.py
+    """
     n, m = len(a), len(b)
     if n > m:
         # Make sure n <= m, to use O(min(n,m)) space
         a, b = b, a
         n, m = m, n
-        
+
     current = range(n+1)
     for i in range(1, m+1):
         previous, current = current, [i]+[0]*n
@@ -20,3 +26,18 @@ def levenshtein(a, b):
     # print("Levenshtein distance between '%s' and '%s' is %d." % (a, b, current[n]))
             
     return current[n]
+
+
+def metaphone(a):
+    """
+    Determine the (double) metaphone.
+    """
+
+    #print("Metaphone value: %-10s : dmetaphone(%s)" % (a, dmetaphone(a)))
+    
+    #print(doublemetaphone("architect"))
+    #("ARKTKT", "")
+    #print(doublemetaphone("bajador"))
+    #("PJTR", "PHTR")
+
+    return doublemetaphone(a)
