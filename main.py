@@ -53,6 +53,8 @@ def get_weighting(word1, word2):
 
     # Levenshtein Distance (per character)
     lev = levenshtein(word1, word2)
+    if min(len(word1),len(word2)) is 0:
+        return 0
     lev_ratio = lev / min(len(word1), len(word2))
 
     return max(0, 1 - lev_ratio)
