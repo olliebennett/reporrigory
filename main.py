@@ -19,7 +19,8 @@ def get_best_weighting(string1, string2):
             score = get_weighting(word1, word2)
             if score < min_score or min_score == -1:
                 min_score = score
-
+    if min_score is -1:
+        print('Something went wrong, min_score = -1')
     return min_score
 
 
@@ -33,25 +34,7 @@ def findBestFoodMatch(food, bands):
             maxId = j
     return maxId
 
-
-def get_weighting(word1, word2):
-    """
-    Return a weighting between 0 (no rhyme) and 1 (identical).
-    """
-
-    # Perfect match!
-    if word1 == word2:
-        #print("Same word!")
-        return 1.0
-
-    # Metaphone
-    met1 = metaphone(word1)
-    met2 = metaphone(word2)
-    if met1 == met2:
-        #print("Same metaphone!")
-        return 0.9
-
-    # Levenshtein Distance (per character)
+def levScore(word1,word2):
     lev = levenshtein(word1, word2)
     if min(len(word1),len(word2)) is 0:
         return 0
@@ -59,6 +42,19 @@ def get_weighting(word1, word2):
 
     return max(0, 1 - lev_ratio)
 
+def metaphoneScore(word1,word2):
+    met1 = metaphone(word1)
+    met2 = metaphone(word2)
+    return levScore(met1,met2)
+    
+def get_weighting(word1, word2):
+    """
+    Return a weighting between 0 (no rhyme) and 1 (identical).
+    """
+    metscore = metaphoneScore(word1,word2)
+    levscore = levScore(word1,word2)
+    # Levenshtein Distance (per character)
+    return (levscore + metscore/3)/1.333
 
 def show_all(min_score):
     """
@@ -73,7 +69,7 @@ def show_all(min_score):
                 # print("Processing band:", band)
                 for band_word in band.split(" "):
                     wt = get_weighting(food_word, band_word)
-                    if wt < 0.4:
+                    if wt < 0.7 or wt >= 0.925:
                         continue
                     print("%-8s | %-8s | %.3f (%s + %s)" % (food_word, band_word, wt, food, band))
 
