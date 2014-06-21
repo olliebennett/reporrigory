@@ -69,7 +69,7 @@ def show_all(min_score):
                 # print("Processing band:", band)
                 for band_word in band.split(" "):
                     wt = get_weighting(food_word, band_word)
-                    if wt < 0.7 or wt >= 0.925:
+                    if wt < 0.7 or wt >= 0.925 or abs(wt - 0.813) < 0.001:
                         continue
                     print("%-8s | %-8s | %.3f (%s + %s)" % (food_word, band_word, wt, food, band))
 
